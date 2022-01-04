@@ -1,0 +1,57 @@
+---
+title: "Project"
+output: html_document
+date: " created 7 December 2021,`r format(Sys.time(), '%d %B %Y %H:%M')`"
+---
+#Downloading packages:
+```{r Packages}
+library(tidyverse)
+library(stringr)
+install.packages("leaflet")
+library(leaflet)
+install.packages("mapproj")
+
+```
+
+#I load my project in
+```{r Project}
+Project <- read.csv2("./data/DM_Project_spreadsheet.csv")
+View(Project)
+colnames(Project)
+
+```
+
+#Applying vectors on the string "ing"
+```{r Code}
+#Project$City_names[str_detect(Project$City_names, "ing$")]
+
+#Hvofor fremgår ing stadig dom en kolonne?
+
+Project<- Project %>% 
+  mutate(Bronze_age=str_detect(Project$City_names, "ing*$|inge$|løse$", negate=FALSE)) %>% 
+  mutate(Iron_age=str_detect(Project$City_names, "sted$|lev$|um$", negate=FALSE)) %>% 
+  mutate(Viking_age=str_detect(Project$City_names, "rup$|by$,rød$", negate=FALSE)) %>% 
+  mutate(Period=case_when(Bronze_age==TRUE~"Bronze",
+                          Iron_age==TRUE~"Iron",
+                          Viking_age==TRUE~"Viking"))
+
+
+head(Project,10)
+View(Project)
+
+
+barplot(table(Project$Period))
+
+```
+
+#Making plots - The most common city endings:
+```{r}
+
+Bronze
+Iron
+Viking
+
+
+
+```
+
